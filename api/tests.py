@@ -16,6 +16,7 @@ class TestRentalView(TestCase):
                 "quantity": 2,
                 "rentalDate": "2020-08-15T12:12:59.785466",
                 "duration": 3,
+                "bookType": "Regular",
             }
         ]
 
@@ -27,8 +28,8 @@ class TestRentalView(TestCase):
             statement,
             {
                 "invoiceId": statement["invoiceId"],
-                "totalCharges": 6,
-                "charges": [{"bookId": 1, "charge": 6}],
+                "totalCharges": 9,
+                "charges": [{"bookId": 1, "charge": 9}],
             },
         )
 
@@ -39,7 +40,12 @@ class TestRentalView(TestCase):
     def test_post_rental_incorrect_payload(self):
         # Example: bookId not provided in payload
         payload = [
-            {"quantity": 2, "rentalDate": "2020-08-15T12:12:59.785466", "duration": 3}
+            {
+                "quantity": 2,
+                "rentalDate": "2020-08-15T12:12:59.785466",
+                "duration": 3,
+                "bookType": "Regular",
+            }
         ]
         response = self.client.post(self.endpoint, payload, format="json")
         self.assertTrue(response.status_code == 400)
