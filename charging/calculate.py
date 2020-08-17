@@ -1,4 +1,5 @@
 import uuid
+
 from datetime import datetime
 from django.conf import settings
 
@@ -16,9 +17,6 @@ class Charges:
 
     def __init__(self, rental=[]):
         self.rental = rental
-
-    def _calculate_charge(self, quantity, book_type, duration):
-        return quantity * self.CHARGES[book_type] * duration
 
     def _calculate_charge(self, book_type, quantity, duration):
         config = {
