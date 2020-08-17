@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import environ
+import django_heroku
 
 env = environ.Env(
     # set casting, default value
@@ -53,6 +54,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -121,6 +125,7 @@ USE_TZ = False
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # API Authentication
 API_KEY = env("API_KEY")
@@ -131,3 +136,7 @@ CHARGES = {
     "Novels": {"cost": 1.5, "minimum_duration": 3, "minimum_cost": 4.5,},
     "Friction": {"cost": 3},
 }
+
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
