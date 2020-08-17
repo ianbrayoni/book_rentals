@@ -1,0 +1,83 @@
+info:
+  description: "API facilitating invoicing"
+  title: "Book Rental API"
+  version: "1.0.0"
+openapi: 3.0.0
+paths:
+  /rentals:
+    operationId: rentals_create
+    tags:
+      - rentals
+    post:
+      summary: Create a new instance of a Rental and Invoice entity.
+      requestBody:
+        description: A JSON object defining the books rented
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Rental"
+      responses:
+        "201":
+          description: Rental and Invoice created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Statement"
+        "400":
+          $ref: "#/components/responses/400"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        default:
+          description: Unexpected error
+
+components:
+  schemas:
+    Rental:
+      type: array
+      items:
+        type: object
+        properties:
+          bookId:
+            type: integer
+          duration:
+            type: integer
+          quantity:
+            type: integer
+          rentalDate:
+            type: string
+          bookType:
+            type: string
+    Statement:
+      type: object
+      properties:
+        invoiceId:
+          type: string
+          format: uuid
+        total_charges:
+          type: number
+        charges:
+          type: array
+          items:
+            type: object
+            properties:
+              bookId:
+                type: integer
+              charge:
+                type: number
+  securitySchemes:
+    bearerAuth:
+      type: https
+      scheme: bearer
+      bearerFormat: Token
+security:
+  - bearerAuth: []
+responses:
+  "400":
+    description: A request has not been formulated correctly and the server cannot respond successfully.
+  "403":
+    description: An API-KEY has not been supplied for authentication and authorization and the server cannot respond successfully.
+  "404":
+    description: Resource not found

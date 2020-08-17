@@ -1,0 +1,10 @@
+# .coveragerc to control coverage.py
+[report]
+omit =
+    tests/*
+    */.virtualenvs/*
+    *tests*
+
+[run]
+omit =
+    */.virtualenvs/*

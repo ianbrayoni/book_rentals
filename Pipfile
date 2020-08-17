@@ -4,10 +4,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pycodestyle = "*"
+black = "==19.10b0"
 
 [packages]
 django = "==2.2"
 djangorestframework = "==3.9.3"
+coverage = "*"
+django-environ = "*"
+psycopg2-binary = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
