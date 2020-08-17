@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from .calculate import Charges
 from api.models import Rentals, Invoices
+from .book import Regular, Fiction, Novels
 
 
 class CalculateTestCase(TestCase):
@@ -43,11 +44,33 @@ class CalculateTestCase(TestCase):
             self.statement,
             {
                 "invoiceId": self.statement["invoiceId"],
-                "totalCharges": 22.5,
+                "totalCharges": 23.5,
                 "charges": [
-                    {"bookId": 1, "charge": 9},
-                    {"bookId": 2, "charge": 1.5},
+                    {"bookId": 1, "charge": 7},
+                    {"bookId": 2, "charge": 4.5},
                     {"bookId": 3, "charge": 12},
                 ],
             },
         )
+
+
+class CalculateBookTestCase(TestCase):
+    def test_regular_books_minimum_duration_charge(self):
+        charge = Regular().cost_to_rent(1, 1)
+        self.assertTrue(charge == 2)
+
+    def test_regular_books_above_minimum_duration_charge(self):
+        charge = Regular().cost_to_rent(1, 5)
+        self.assertTrue(charge == 6.5)
+
+    def test_novels_books_minimum_duration_charge(self):
+        charge = Novels().cost_to_rent(1, 2)
+        self.assertTrue(charge == 4.5)
+
+    def test_novels_books_above_minimum_duration_charge(self):
+        charge = Novels().cost_to_rent(1, 6)
+        self.assertTrue(charge == 9)
+
+    def test_fiction_books_charge(self):
+        charge = Fiction().cost_to_rent(1, 5)
+        self.assertTrue(charge == 15)

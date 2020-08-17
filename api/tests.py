@@ -28,8 +28,8 @@ class TestRentalView(TestCase):
             statement,
             {
                 "invoiceId": statement["invoiceId"],
-                "totalCharges": 9,
-                "charges": [{"bookId": 1, "charge": 9}],
+                "totalCharges": 7,
+                "charges": [{"bookId": 1, "charge": 7}],
             },
         )
 
