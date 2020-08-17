@@ -11,13 +11,13 @@ class Charges:
     Calculate charges for books rented
     """
 
-    DAILY_CHARGE = settings.DAILY_CHARGE
+    CHARGES = settings.CHARGES
 
     def __init__(self, rental=[]):
         self.rental = rental
 
-    def _calculate_charge(self, quantity, duration):
-        return quantity * self.DAILY_CHARGE * duration
+    def _calculate_charge(self, quantity, book_type, duration):
+        return quantity * self.CHARGES[book_type] * duration
 
     @error_handler
     def calculate(self):
@@ -34,7 +34,9 @@ class Charges:
         invoice.save()
 
         for data in self.rental:
-            charge = self._calculate_charge(data["quantity"], data["duration"])
+            charge = self._calculate_charge(
+                data["quantity"], data["book_type"], data["duration"]
+            )
 
             charges_per_book = dict(bookId=data["book_id"], charge=charge)
             statement["charges"].append(charges_per_book)

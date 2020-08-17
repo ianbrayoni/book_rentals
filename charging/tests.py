@@ -12,18 +12,21 @@ class CalculateTestCase(TestCase):
                 "quantity": 2,
                 "rental_date": "2020-08-15T12:12:59.785466",
                 "duration": 3,
+                "book_type": "Regular",
             },
             {
                 "book_id": 2,
                 "quantity": 1,
                 "rental_date": "2020-08-15T12:12:59.785466",
                 "duration": 1,
+                "book_type": "Novels",
             },
             {
                 "book_id": 3,
                 "quantity": 1,
                 "rental_date": "2020-08-15T12:12:59.785466",
                 "duration": 4,
+                "book_type": "Fiction",
             },
         ]
         self.statement = Charges(rental=self.rental).calculate()
@@ -40,11 +43,11 @@ class CalculateTestCase(TestCase):
             self.statement,
             {
                 "invoiceId": self.statement["invoiceId"],
-                "totalCharges": 11,
+                "totalCharges": 22.5,
                 "charges": [
-                    {"bookId": 1, "charge": 6},
-                    {"bookId": 2, "charge": 1},
-                    {"bookId": 3, "charge": 4},
+                    {"bookId": 1, "charge": 9},
+                    {"bookId": 2, "charge": 1.5},
+                    {"bookId": 3, "charge": 12},
                 ],
             },
         )
