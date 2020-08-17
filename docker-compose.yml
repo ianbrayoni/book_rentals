@@ -1,0 +1,22 @@
+version: "2.0"
+services:
+  web:
+    restart: always
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db/book_rentals
+    command: ./run.sh
+    volumes:
+      - ".:/usr/src/app"
+  db:
+    image: postgres:12-alpine
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_DB: book_rentals
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
