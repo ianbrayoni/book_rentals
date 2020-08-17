@@ -1,9 +1,11 @@
 import uuid
+
 from datetime import datetime
 from django.conf import settings
 
 from api.models import Rentals, Invoices
 from utils.helpers import error_handler
+from .book import Regular, Fiction, Novels
 
 
 class Charges:
@@ -16,8 +18,14 @@ class Charges:
     def __init__(self, rental=[]):
         self.rental = rental
 
-    def _calculate_charge(self, quantity, book_type, duration):
-        return quantity * self.CHARGES[book_type] * duration
+    def _calculate_charge(self, book_type, quantity, duration):
+        config = {
+            "Regular": Regular().cost_to_rent(quantity, duration),
+            "Fiction": Fiction().cost_to_rent(quantity, duration),
+            "Novels": Novels().cost_to_rent(quantity, duration),
+        }
+
+        return config[book_type]
 
     @error_handler
     def calculate(self):
@@ -35,7 +43,7 @@ class Charges:
 
         for data in self.rental:
             charge = self._calculate_charge(
-                data["quantity"], data["book_type"], data["duration"]
+                data["book_type"], data["quantity"], data["duration"]
             )
 
             charges_per_book = dict(bookId=data["book_id"], charge=charge)

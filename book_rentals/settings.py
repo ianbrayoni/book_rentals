@@ -126,6 +126,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 API_KEY = env("API_KEY")
 
 # Product Config
-
-# Prices per book type
-CHARGES = dict(Regular=1.5, Novels=1.5, Fiction=3)
+CHARGES = {
+    "Regular": {"cost": 1.5, "minimum_duration": 2, "minimum_cost": 2,},
+    "Novels": {"cost": 1.5, "minimum_duration": 3, "minimum_cost": 4.5,},
+    "Friction": {"cost": 3},
+}
