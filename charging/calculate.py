@@ -11,8 +11,6 @@ class Charges:
     Calculate charges for books rented
     """
 
-    CHARGES = settings.CHARGES
-
     def __init__(self, rental=[]):
         self.rental = rental
 
