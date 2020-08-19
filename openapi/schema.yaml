@@ -56,7 +56,7 @@ components:
         invoiceId:
           type: string
           format: uuid
-        total_charges:
+        totalCharges:
           type: number
         charges:
           type: array
